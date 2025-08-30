@@ -36,4 +36,10 @@ if __name__ == "__main__":
         user_found = user_manager.find_user(i)
         print(user_found)
 
+    for i in range(500):
+        user_manager.delete_user(i)
+        user_found = user_manager.find_user(i)
+        print(f"el usuario eliminado es el {i}")
+        print(user_found)
+
 print("end")
