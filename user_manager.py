@@ -30,9 +30,10 @@ if __name__ == "__main__":
     user_manager = UserManager()
 
     for i in range(500): 
-        user_manager.add_user(i, f"yo soy el num:(1)")
+        user_manager.add_user(i, f"yo soy el num:{i}")
 
-    all_names=user_manager.get_all_names()
-    print(all_names)
+    for i in range(500):
+        user_found = user_manager.find_user(i)
+        print(user_found)
 
 print("end")
