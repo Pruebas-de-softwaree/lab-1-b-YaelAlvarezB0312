@@ -14,55 +14,21 @@ class UserManager:
                 user = u
         return user  
 
-    def delete_user(self, user_id):
-        # RNF3: eliminar TODOS los duplicados
-        self.users = [u for u in self.users if u["id"] != user_id]
-
-    def get_all_names(self):
-        return [u["id"] for u in self.users]
-
-    def average_user_id(self):
-        if not self.users:   
-            return None
-        return sum([u["id"] for u in self.users]) / len(self.users)
-
 
 if __name__ == "__main__":
     user_manager = UserManager()
 
-    # RNF1: Manejar hasta 1000 usuarios
-    for i in range(1000): 
-        user_manager.add_user(i, f"yo soy el num:{i}")
+    # 1. Rendimiento: agregar 1000 usuarios
+    for i in range(1000):
+        user_manager.add_user(i, f"usuario:{i}")
 
-    print(f"Total de usuarios agregados: {len(user_manager.users)}\n")
+    print(f"Total de usuarios agregados: {len(user_manager.users)}")
 
-    # RNF2: Tiempo de búsqueda por ID < 0.01 s
+    # Medir tiempo de búsqueda del usuario con ID 500
     start_time = time.time()
     user_found = user_manager.find_user(500)
     end_time = time.time()
     elapsed = end_time - start_time
+
     print(f"Usuario 500 encontrado: {user_found}")
     print(f"Tiempo de búsqueda: {elapsed:.6f} segundos")
-    if elapsed < 0.01:
-        print("RNF2 cumplido  (tiempo < 0.01 s)")
-    else:
-        print("RNF2 NO cumplido  (tiempo >= 0.01 s)")
-
-    # RNF3: Manejo de duplicados
-    print("\n=== PRUEBA DE DUPLICADOS ===")
-    user_manager.add_user(10, "duplicado1")
-    user_manager.add_user(10, "duplicado2")
-    user_manager.add_user(10, "duplicado3")
-
-    print("Usuarios con ID 10 antes de eliminar:")
-    print([u for u in user_manager.users if u["id"] == 10])
-
-    user_manager.delete_user(10)
-
-    print("Usuarios con ID 10 después de eliminar:")
-    print([u for u in user_manager.users if u["id"] == 10])
-
-    # Calcular promedio de IDs
-    print("\nPromedio de IDs actuales:", user_manager.average_user_id())
-
-print("end")
