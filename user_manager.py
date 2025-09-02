@@ -1,5 +1,3 @@
-import time
-
 class UserManager:
     def __init__(self):
         self.users = []  
@@ -14,21 +12,33 @@ class UserManager:
                 user = u
         return user  
 
+    def delete_user(self, user_id):
+        for u in self.users:
+            if u["id"] == user_id:
+                self.users.remove(u)
+                break  
+
+    def average_user_id(self):
+        if not self.users:   # manejo de lista vacía
+            return None
+        return sum([u["id"] for u in self.users]) / len(self.users)
+
 
 if __name__ == "__main__":
     user_manager = UserManager()
 
-    # 1. Rendimiento: agregar 1000 usuarios
-    for i in range(1000):
-        user_manager.add_user(i, f"usuario:{i}")
+    print("=== PRUEBA DE ROBUSTEZ ===")
 
-    print(f"Total de usuarios agregados: {len(user_manager.users)}")
+    # 1. Intentar eliminar un usuario que no existe
+    try:
+        user_manager.delete_user(9999)  # no existe
+        print("Eliminar usuario inexistente: NO generó error ")
+    except Exception as e:
+        print("Eliminar usuario inexistente: ERROR ", e)
 
-    # Medir tiempo de búsqueda del usuario con ID 500
-    start_time = time.time()
-    user_found = user_manager.find_user(500)
-    end_time = time.time()
-    elapsed = end_time - start_time
-
-    print(f"Usuario 500 encontrado: {user_found}")
-    print(f"Tiempo de búsqueda: {elapsed:.6f} segundos")
+    # 2. Calcular average_user_id en lista vacía
+    try:
+        avg = user_manager.average_user_id()
+        print(f"average_user_id en lista vacía: {avg} (NO error) ")
+    except Exception as e:
+        print("average_user_id en lista vacía: ERROR ", e)
