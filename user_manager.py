@@ -18,27 +18,23 @@ class UserManager:
                 self.users.remove(u)
                 break  
 
-    def average_user_id(self):
-        if not self.users:   # manejo de lista vacía
-            return None
-        return sum([u["id"] for u in self.users]) / len(self.users)
-
 
 if __name__ == "__main__":
     user_manager = UserManager()
 
-    print("=== PRUEBA DE ROBUSTEZ ===")
+    print("=== PRUEBA DE INTEGRIDAD DE DATOS ===")
 
-    # 1. Intentar eliminar un usuario que no existe
-    try:
-        user_manager.delete_user(9999)  # no existe
-        print("Eliminar usuario inexistente: NO generó error ")
-    except Exception as e:
-        print("Eliminar usuario inexistente: ERROR ", e)
+    # Agregar usuarios duplicados
+    user_manager.add_user(10, "duplicado1")
+    user_manager.add_user(10, "duplicado2")
+    user_manager.add_user(10, "duplicado3")
 
-    # 2. Calcular average_user_id en lista vacía
-    try:
-        avg = user_manager.average_user_id()
-        print(f"average_user_id en lista vacía: {avg} (NO error) ")
-    except Exception as e:
-        print("average_user_id en lista vacía: ERROR ", e)
+    # Evaluar find_user
+    print("Resultado de find_user(10):")
+    print(user_manager.find_user(10))  
+
+    # Evaluar delete_user
+    user_manager.delete_user(10)
+    print("\nUsuarios con ID 10 después de delete_user:")
+    print([u for u in user_manager.users if u["id"] == 10])  
+   
